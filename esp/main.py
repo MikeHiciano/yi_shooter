@@ -6,13 +6,17 @@ from machine import Pin
 import usocket as socket
 import ujson as json
 
-gc.enable()
+sta_if = network.WLAN(network.STA_IF)
+sta_if.active(True)
+sta_if.connect('Yi_MikeHiciano','mikeishere')
+
 flag = 1
 IP = "192.168.42.1"
 PORT = 7878
 
-sta_if = network.WLAN(network.STA_IF)
-sta_if.connect('Yi_MikeHiciano','mikeishere')
+button = Pin(5,Pin.IN, Pin.PULL_UP)
+led = Pin(16,Pin.OUT)
+status_led = Pin(2,Pin.OUT)
 
 class CamHandler(object):
     def __init__(self,ip,port):
@@ -41,24 +45,40 @@ class CamHandler(object):
         self.sock.close()
 
 def main():
-    button = Pin(5,Pin.IN, Pin.PULL_UP)
-    led = Pin(16,Pin.OUT)
+
     ch = CamHandler(IP,PORT)
 
-    while True:
-        if button.value() == False:
-            led.value(0)
-            ch._get_token()
-            ch.take_picture()
-            led.value(1)
+    if sta_if.ifconfig()[3] == "192.168.42.1":
+        status_led.value(0)
     
-        else:
-            gc.collect()
+    elif sta_if.ifconfig()[3] != "192.168.42.1":
+        status_led.value(1)
 
-if __name__ == '__main__':
-    
-    main()
+    if button.value() != False:
+        gc.enable()
+        gc.collect()
 
+    else:
+        led.value(0)
+        ch._get_token()
+        ch.take_picture()
+        led.value(1)
+
+def blink():
+    led.value(0)
+    time.sleep(0.5)
+    led.value(1)
+    time.sleep(0.5)
+
+
+while True:
+    try:
+        main()
+        time.sleep(0.2)
+
+    except OSError:
+        status_led.value(0)
+        blink()
 
 
 
