@@ -10,7 +10,6 @@ sta_if = network.WLAN(network.STA_IF)
 sta_if.active(True)
 sta_if.connect('<your ssid>','<your pass>')
 
-flag = 1
 IP = "192.168.42.1"
 PORT = 7878
 
