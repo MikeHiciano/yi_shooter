@@ -8,12 +8,13 @@ import ujson as json
 
 sta_if = network.WLAN(network.STA_IF)
 sta_if.active(True)
-sta_if.connect('<your ssid>','<your pass>')
+sta_if.connect('<your SSID>','<your Password>')
 
 IP = "192.168.42.1"
 PORT = 7878
 
-button = Pin(5,Pin.IN, Pin.PULL_UP)
+picture_button = Pin(5,Pin.IN, Pin.PULL_UP)
+video_button = Pin(4,Pin.IN, Pin.PULL_UP)
 led = Pin(16,Pin.OUT)
 status_led = Pin(2,Pin.OUT)
 
@@ -40,7 +41,15 @@ class CamHandler(object):
         command = {"msg_id":16777220,"token":5,"param":"precise quality;off"}
         self.do_command(command)
     
-    def close_connection(self):
+    def start_recording(self):
+        command = {"msg_id":513,"token":5}
+        self.do_command(command)
+
+    def stop_recording(self):
+        command = {"msg_id":514,"token":5}
+        self.do_command(command)
+
+    def cl ose_connection(self):
         self.sock.close()
 
 def main():
@@ -53,22 +62,37 @@ def main():
     elif sta_if.ifconfig()[3] != "192.168.42.1":
         status_led.value(1)
 
-    if button.value() != False:
+    if picture_button.value() != False or video_button.value() != False:
         gc.enable()
         gc.collect()
 
-    else:
+    if picture_button.value() == False:
         led.value(0)
         ch._get_token()
         ch.take_picture()
         led.value(1)
+
+'''
+    elif video_button.value() == False:
+        
+        if == False:
+            led.value(0)
+            ch._get_token()
+            ch.start_recording()
+            led.value(1)
+        
+        else:
+            led.value(0)
+            ch._get_token()
+            ch.stop_recording()
+            led.value(1)
+'''
 
 def blink():
     led.value(0)
     time.sleep(0.5)
     led.value(1)
     time.sleep(0.5)
-
 
 while True:
     try:
@@ -78,7 +102,3 @@ while True:
     except OSError:
         status_led.value(0)
         blink()
-
-
-
-
