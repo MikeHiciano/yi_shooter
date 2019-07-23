@@ -2,7 +2,7 @@
 
 Yi shooter is an esp8266 powered remote control for a Yi Camera.
 
-if you dont have installed ampy in your computer or micropython in your microcontroller you can download and install it on the links down below.
+if you don`t have installed ampy on your computer or micropython on your microcontroller you can download and install it on the links down below.
 
 [Micropython](https://micropython.org/)
 
@@ -19,7 +19,14 @@ Coming Soon
 
 ## Set the credentials
 
-Comming soon
+The steps to insert the credentials are too simple, you only have to do is find this piece of code:
+
+```python
+sta_if = network.WLAN(network.STA_IF)
+sta_if.active(True)
+sta_if.connect('<your SSID>','<your Password>')
+```
+the next you have to do is replace the "your ssid" space with your yi camera's wifi name and the "your password" space with your yi camera's password
 
 ## instalation
 The steps to do the instalation for the software are the next ones:
