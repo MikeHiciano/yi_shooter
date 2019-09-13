@@ -13,7 +13,40 @@ For replicate this proyect there are two topics to do, the Hardware and the Soft
 
 # Hardware
 
-Coming Soon
+## materials
+
+For the materials you only need this components:
+
+* a breadboard
+* two push buttons
+* jumper wires
+* an esp8266 based board (in my case a nodeMCU v0.9)
+* cooper wire
+* a perfboard 
+
+## lets put it all together
+
+the conection of the nodeMCU board is extremely easy, you only have to connect the pin 5* and 4* of the esp8266 to the buttons and connect the buttons to ground, like the next image:
+
+<img src="./images/wemos.png" width="400">
+
+\* note:
+the pins of the developement board is not the same as the esp8266, consult your developement board documentation to learn more about it.
+
+having tested all the features of the program, we can continue to the pcb.
+
+the pcb connection is the same as the breadboard connection, at the end we going to have something like this:
+
+<img src="./images/wemos_pcb.png" width="400">
+
+## final result
+as you can see, we have a more minimalistic design as the breadboard version, in real life thats the final result:
+
+<img src="./images/shooter1.jpg" width="160" height="200">
+<img src="./images/shooter2.jpg" width="160" height="200">
+
+\* note:
+I use a perfboard and a nodeMCU v0.9 in the MVP because in the software that i use for the schematic doest have the nodeMCU.
 
 # Software
 
